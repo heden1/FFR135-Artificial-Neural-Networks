@@ -74,7 +74,7 @@ for t in B.T:
             w=w+dw
             theta=theta+dTheta
 
-
+#hej
     numberSepreable=numberSepreable+CheckIfCorrect(w,X,theta,t,n)
 
 
