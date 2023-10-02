@@ -1,9 +1,6 @@
 import numpy as np 
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import random
-
 
 def loadCsv(filePath):
     df= pd.read_csv(filePath,header=None)
@@ -38,6 +35,7 @@ def validationOfWheigts(w1,w2,theta1,theta2,validation_set):
 
     return sumErrors[0][0]/(2*pVal)
 
+#Load data
 traning_set=loadCsv('/Users/anton_heden/Documents/Programing/FFR135-Artificial-Neural-Networks/HW2/training_set.csv')
 validation_set=loadCsv('/Users/anton_heden/Documents/Programing/FFR135-Artificial-Neural-Networks/HW2/validation_set.csv')
 validation_set=Normalize(validation_set)
@@ -51,20 +49,14 @@ maxIterations=500
 classificationErrorBoundary=0.1199
 
 # Initialize
-w1=np.random.normal(loc=0.0,scale= 1/np.sqrt(2),size=(M1, 2))
-w2=np.random.normal(loc=0,scale=1/np.sqrt(M1),size=(M1,1))
-
-
+w1=np.random.normal(0,1/np.sqrt(2),size=(M1, 2))
+w2=np.random.normal(0,1/np.sqrt(M1),size=(M1,1))
 theta1=np.zeros((M1, 1))
 theta2=np.zeros((1,1))
-
-
-
 
 for epoch in range(maxIterations):
         traning_set=traning_set.sample(frac=1).reset_index(drop=True)
         for mu in traning_set.index:
-
             x=np.transpose([[traning_set['x1'][mu], traning_set['x2'][mu]]])
             t=traning_set['t'][mu]
 
@@ -77,8 +69,7 @@ for epoch in range(maxIterations):
             dTheta2=ne*Delta
 
             b=-theta1+np.matmul(w1,x)
-            gPrimeb=np.asarray(1-(np.tanh(b))**2)
-            delta=Delta*w2*gPrimeb
+            delta=Delta*w2*(1-(np.tanh(b))**2)
             dw1=ne*delta*x.T
             dTheta1=ne*delta
             
@@ -96,8 +87,3 @@ for epoch in range(maxIterations):
             saveCsv('t1.csv',theta1)
             saveCsv('t2.csv',theta2)
             break
-
-
-
-
-
